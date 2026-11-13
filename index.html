@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life OS Dashboard</title>
+    <meta
+      name="description"
+      content="A personal dashboard for tasks, inbox, calendar, notes, and AI-powered productivity."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">L</div>
+          <div>
+            <div class="brand-name">Life OS</div>
+            <div class="brand-subtitle">Daily control center</div>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <button class="nav-item active" type="button">
+            <span class="nav-icon">⌂</span>
+            Overview
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">✉</span>
+            Inbox
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">🗓</span>
+            Calendar
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">✓</span>
+            Tasks
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">✎</span>
+            Notes
+          </button>
+          <button class="nav-item" type="button">
+            <span class="nav-icon">AI</span>
+            Copilot
+          </button>
+        </nav>
+
+        <div class="sidebar-card">
+          <div class="mini-label">Focus mode</div>
+          <div class="focus-value">2 tasks left</div>
+          <div class="progress">
+            <span style="width: 68%"></span>
+          </div>
+          <button class="ghost-button" type="button">Open flow</button>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Tuesday, November 13</p>
+            <h1>Good morning, Nico.</h1>
+          </div>
+
+          <div class="topbar-actions">
+            <button class="chip" type="button">+ Quick add</button>
+            <button class="avatar" type="button" aria-label="Profile">
+              N
+            </button>
+          </div>
+        </header>
+
+        <section class="summary-grid" id="summaryGrid"></section>
+
+        <section class="content-grid">
+          <div class="panel wide-panel">
+            <div class="panel-header">
+              <div>
+                <p class="mini-label">Today</p>
+                <h2>Priority view</h2>
+              </div>
+              <button class="text-button" type="button">See all</button>
+            </div>
+
+            <div class="task-list" id="taskList"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="mini-label">Inbox</p>
+                <h2>Latest mail</h2>
+              </div>
+            </div>
+
+            <div class="mail-list" id="mailList"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="mini-label">Calendar</p>
+                <h2>Agenda</h2>
+              </div>
+            </div>
+
+            <div class="event-list" id="calendarList"></div>
+          </div>
+
+          <div class="panel notes-panel">
+            <div class="panel-header">
+              <div>
+                <p class="mini-label">Notes</p>
+                <h2>Captures</h2>
+              </div>
+            </div>
+
+            <div class="notes-list" id="notesList"></div>
+          </div>
+        </section>
+
+        <section class="integrations">
+          <div class="panel panel-full">
+            <div class="panel-header">
+              <div>
+                <p class="mini-label">Connected apps</p>
+                <h2>Life stack</h2>
+              </div>
+            </div>
+
+            <div class="integration-grid" id="integrationsList"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
