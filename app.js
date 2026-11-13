@@ -1,176 +1,126 @@
-const summaryData = [
-  {
-    title: 'Inbox',
-    value: '12',
-    icon: '✉',
-    trend: '+3 new today',
-    color: '#61dafb'
-  },
-  {
-    title: 'Tasks',
-    value: '05',
-    icon: '✓',
-    trend: '2 due soon',
-    color: '#7c8cff'
-  },
-  {
-    title: 'Meetings',
-    value: '03',
-    icon: '🗓',
-    trend: '1 focus block',
-    color: '#58d68d'
-  },
-  {
-    title: 'AI notes',
-    value: '09',
-    icon: 'AI',
-    trend: '3 auto-sorted',
-    color: '#f4c95d'
-  }
-];
-
 const tasks = [
-  { title: 'Build launch plan', meta: 'Marketing / 10:30', done: false, priority: 'High' },
-  { title: 'Reply to project thread', meta: 'Inbox / 11:00', done: false, priority: 'Medium' },
-  { title: 'Review design mockups', meta: 'Product / 13:00', done: true, priority: 'Low' },
-  { title: 'Plan week goals', meta: 'Life / 16:00', done: false, priority: 'High' }
+  { title: 'Finish biology lab report', detail: 'School · Today', category: 'School', completed: false },
+  { title: 'Reply to Maya about Saturday', detail: 'Personal · Today', category: 'Personal', completed: false },
+  { title: 'Review history chapter 6', detail: 'School · Tomorrow', category: 'School', completed: false },
+  { title: 'Tidy up my desk', detail: 'Personal · This week', category: 'Personal', completed: true }
 ];
 
-const emails = [
-  { title: 'Weekly team updates', sender: 'team@company.com', meta: '2 min ago', badge: 'Urgent', badgeClass: 'red' },
-  { title: 'Client review notes', sender: 'maria@studio.net', meta: '19 min ago', badge: 'Action', badgeClass: 'amber' },
-  { title: 'Travel confirmation', sender: 'booking@flysafe.io', meta: '1 hour ago', badge: 'Info', badgeClass: 'green' }
+const quotes = [
+  ['You don’t have to see the whole staircase,', 'just take the first step.', '— MARTIN LUTHER KING JR.'],
+  ['You are allowed to be both', 'a masterpiece and a work in progress.', '— SOPHIA BUSH'],
+  ['Almost everything will work again', 'if you unplug it for a few minutes.', '— ANNE LAMOTT']
 ];
+let showCompleted = false;
+let toastTimer;
 
-const calendarEvents = [
-  { title: 'Deep work sprint', time: '09:00 - 10:30', meta: 'Focus time', badge: 'Design' },
-  { title: '1:1 with Alex', time: '12:00 - 12:30', meta: 'Leadership', badge: 'People' },
-  { title: 'Gym + recovery', time: '18:30 - 19:30', meta: 'Personal', badge: 'Health' }
-];
-
-const notes = [
-  { title: 'Launch checklist', meta: 'Saved 8:18 AM' },
-  { title: 'Ideas for life dashboard', meta: 'Saved yesterday' },
-  { title: 'Weekly personal wins', meta: 'Saved Monday' }
-];
-
-const integrations = [
-  { name: 'Gmail', status: 'Connected', meta: 'Inbox + labels', logo: 'G' },
-  { name: 'Calendar', status: 'Connected', meta: 'Meetings + time blocks', logo: 'C' },
-  { name: 'Notion', status: 'Setup', meta: 'Notes + tasks', logo: 'N' },
-  { name: 'Slack', status: 'Connect', meta: 'Team messages', logo: 'S' }
-];
-
-function renderSummary() {
-  const container = document.getElementById('summaryGrid');
-  container.innerHTML = summaryData
-    .map(
-      (item) => `
-        <article class="metric-card">
-          <div class="metric-top">
-            <div class="metric-icon" style="color: ${item.color}; border: 1px solid ${item.color}22;">${item.icon}</div>
-          </div>
-          <p class="metric-title">${item.title}</p>
-          <p class="metric-value">${item.value}</p>
-          <div class="metric-trend">${item.trend}</div>
-        </article>
-      `
-    )
-    .join('');
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
 }
 
 function renderTasks() {
-  const container = document.getElementById('taskList');
-  container.innerHTML = tasks
-    .map(
-      (task) => `
-        <div class="task-item ${task.done ? 'done' : ''}">
-          <div class="task-row">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div class="task-check"></div>
-              <div class="task-title">${task.title}</div>
-            </div>
-            <span class="badge ${task.priority === 'High' ? 'red' : task.priority === 'Medium' ? 'amber' : 'green'}">${task.priority}</span>
-          </div>
-          <div class="task-meta">${task.meta}</div>
-        </div>
-      `
-    )
-    .join('');
+  const visible = tasks.filter((task) => showCompleted || !task.completed);
+  document.getElementById('taskList').innerHTML = visible.map((task) => {
+    const index = tasks.indexOf(task);
+    const categoryClass = task.category === 'School' ? 'tag-school' : 'tag-personal';
+    return `<div class="task-item ${task.completed ? 'completed' : ''}">
+      <button class="task-toggle" type="button" data-task-index="${index}" aria-label="${task.completed ? 'Mark incomplete' : 'Complete'}: ${escapeHtml(task.title)}">${task.completed ? '✓' : ''}</button>
+      <div class="task-copy"><strong>${escapeHtml(task.title)}</strong><span>${escapeHtml(task.detail)}</span></div>
+      <span class="task-tag ${categoryClass}">${escapeHtml(task.category)}</span>
+    </div>`;
+  }).join('');
+  const remaining = tasks.filter((task) => !task.completed).length;
+  const done = tasks.length - remaining;
+  document.getElementById('taskCount').textContent = remaining;
+  document.getElementById('headingCount').textContent = remaining;
+  document.getElementById('progressText').textContent = `${done} of ${tasks.length} done`;
+  document.getElementById('taskProgress').style.width = `${tasks.length ? (done / tasks.length) * 100 : 0}%`;
+  document.getElementById('showTasksButton').innerHTML = `${showCompleted ? 'Hide' : 'Show'} completed (${done}) <span>${showCompleted ? '↑' : '↓'}</span>`;
 }
 
-function renderMail() {
-  const container = document.getElementById('mailList');
-  container.innerHTML = emails
-    .map(
-      (mail) => `
-        <div class="mail-item">
-          <div class="mail-row">
-            <strong class="mail-title">${mail.title}</strong>
-            <span class="badge ${mail.badgeClass}">${mail.badge}</span>
-          </div>
-          <div class="mail-meta">${mail.sender}</div>
-          <div class="mail-meta">${mail.meta}</div>
-        </div>
-      `
-    )
-    .join('');
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-function renderCalendar() {
-  const container = document.getElementById('calendarList');
-  container.innerHTML = calendarEvents
-    .map(
-      (event) => `
-        <div class="event-item">
-          <div class="event-row">
-            <div class="event-time">${event.time}</div>
-            <span class="badge green">${event.badge}</span>
-          </div>
-          <strong>${event.title}</strong>
-          <div class="event-meta">${event.meta}</div>
-        </div>
-      `
-    )
-    .join('');
+function addTask(title) {
+  const cleanTitle = title.trim();
+  if (!cleanTitle) return;
+  tasks.unshift({ title: cleanTitle, detail: 'Personal · Today', category: 'Personal', completed: false });
+  showCompleted = false;
+  renderTasks();
+  showToast('Task added to your day. One step at a time!');
 }
 
-function renderNotes() {
-  const container = document.getElementById('notesList');
-  container.innerHTML = notes
-    .map(
-      (note) => `
-        <div class="note-item">
-          <div class="note-title">${note.title}</div>
-          <div class="note-meta">${note.meta}</div>
-        </div>
-      `
-    )
-    .join('');
-}
+document.getElementById('taskList').addEventListener('click', (event) => {
+  const button = event.target.closest('[data-task-index]');
+  if (!button) return;
+  const task = tasks[Number(button.dataset.taskIndex)];
+  task.completed = !task.completed;
+  renderTasks();
+  showToast(task.completed ? 'Nice work — that’s one thing done.' : 'Task moved back to your list.');
+});
 
-function renderIntegrations() {
-  const container = document.getElementById('integrationsList');
-  container.innerHTML = integrations
-    .map(
-      (item) => `
-        <div class="integration-item">
-          <div class="integration-brand">
-            <div class="integration-logo">${item.logo}</div>
-            <span class="integration-status">${item.status}</span>
-          </div>
-          <strong>${item.name}</strong>
-          <div class="integration-meta">${item.meta}</div>
-          <button class="connect-button" type="button">${item.status === 'Connect' ? 'Connect' : 'Manage'}</button>
-        </div>
-      `
-    )
-    .join('');
-}
+document.getElementById('addTaskButton').addEventListener('click', () => {
+  const dialog = document.getElementById('taskDialog');
+  dialog.showModal();
+  document.getElementById('taskInput').focus();
+});
 
-renderSummary();
+document.getElementById('taskForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const input = document.getElementById('taskInput');
+  addTask(input.value);
+  input.value = '';
+  document.getElementById('taskDialog').close();
+});
+
+document.getElementById('showTasksButton').addEventListener('click', () => {
+  showCompleted = !showCompleted;
+  renderTasks();
+});
+
+document.getElementById('classroomLink').addEventListener('click', () => {
+  showToast('These are sample assignments. Google Classroom sync needs account authorization first.');
+});
+
+document.getElementById('searchButton').addEventListener('click', () => {
+  const query = window.prompt('What are you looking for?');
+  if (query && query.trim()) {
+    const match = tasks.find((task) => task.title.toLowerCase().includes(query.trim().toLowerCase()));
+    showToast(match ? `Found a task: ${match.title}` : 'No matching task in this demo yet.');
+  }
+});
+
+document.getElementById('profileButton').addEventListener('click', () => showToast('Your personal space is ready to customize.'));
+document.querySelector('.top-avatar').addEventListener('click', () => showToast('Your personal space is ready to customize.'));
+document.querySelector('.round-arrow[aria-label="Next week"]').addEventListener('click', () => showToast('Weekly activity is sample data for now.'));
+document.querySelector('.round-arrow[aria-label="Open calendar"]').addEventListener('click', () => showToast('Connect Google Calendar to see your real schedule.'));
+
+document.getElementById('newQuoteButton').addEventListener('click', () => {
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  document.querySelector('.quote-card p').innerHTML = `${escapeHtml(quote[0])}<br />${escapeHtml(quote[1])}`;
+  document.querySelector('.quote-card>span').textContent = quote[2];
+});
+
+document.querySelectorAll('.nav-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-link').forEach((item) => item.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// Axios is loaded for the eventual backend integration. Never put OAuth tokens or
+// provider secrets in this browser app; authenticated integrations need a server.
+const api = window.axios ? window.axios.create({
+  baseURL: '/api',
+  timeout: 10000,
+  headers: { Accept: 'application/json' }
+}) : null;
+window.daylightApi = api;
+
 renderTasks();
-renderMail();
-renderCalendar();
-renderNotes();
-renderIntegrations();

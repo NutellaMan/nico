@@ -1,148 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Life OS Dashboard</title>
-    <meta
-      name="description"
-      content="A personal dashboard for tasks, inbox, calendar, notes, and AI-powered productivity."
-    />
+    <meta name="theme-color" content="#f6f5f1" />
+    <meta name="description" content="A bright, personal dashboard for your day, school, and life." />
+    <title>Daylight — your day, in focus</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar">
-        <div class="brand">
-          <div class="brand-mark">L</div>
-          <div>
-            <div class="brand-name">Life OS</div>
-            <div class="brand-subtitle">Daily control center</div>
-          </div>
-        </div>
-
+        <a class="brand" href="#overview" aria-label="Daylight home">
+          <span class="brand-icon" aria-hidden="true">✳</span>
+          <span>daylight<span class="brand-period">.</span></span>
+        </a>
+        <div class="workspace-label">YOUR SPACE</div>
         <nav class="nav" aria-label="Main navigation">
-          <button class="nav-item active" type="button">
-            <span class="nav-icon">⌂</span>
-            Overview
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">✉</span>
-            Inbox
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">🗓</span>
-            Calendar
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">✓</span>
-            Tasks
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">✎</span>
-            Notes
-          </button>
-          <button class="nav-item" type="button">
-            <span class="nav-icon">AI</span>
-            Copilot
-          </button>
+          <a class="nav-link active" href="#overview"><span class="nav-symbol">⌂</span>Overview</a>
+          <a class="nav-link" href="#tasks"><span class="nav-symbol">✓</span>My tasks<span class="nav-count">4</span></a>
+          <a class="nav-link" href="#classroom"><span class="nav-symbol">▤</span>Classroom<span class="nav-count lilac">2</span></a>
+          <a class="nav-link" href="#calendar"><span class="nav-symbol">▦</span>Calendar</a>
+          <a class="nav-link" href="#notes"><span class="nav-symbol">▧</span>Notes</a>
         </nav>
-
-        <div class="sidebar-card">
-          <div class="mini-label">Focus mode</div>
-          <div class="focus-value">2 tasks left</div>
-          <div class="progress">
-            <span style="width: 68%"></span>
+        <div class="workspace-label apps-label">YOUR APPS</div>
+        <div class="app-links">
+          <div class="app-link"><span class="app-dot gmail-dot">M</span>Mail <span class="app-state">Demo</span></div>
+          <div class="app-link"><span class="app-dot classroom-dot">C</span>Google Classroom <span class="app-state">Demo</span></div>
+          <div class="app-link"><span class="app-dot calendar-dot">▦</span>Google Calendar <span class="app-state">Demo</span></div>
+        </div>
+        <div class="sidebar-bottom">
+          <div class="streak-card">
+            <div class="streak-top"><span class="sunny">☀</span><span class="streak-count">4 day streak</span></div>
+            <p>Small steps add up.<br /><strong>You’re doing great.</strong></p>
+            <div class="streak-dots" aria-label="Four day streak"><i class="filled"></i><i class="filled"></i><i class="filled"></i><i class="filled"></i><i></i><i></i><i></i></div>
           </div>
-          <button class="ghost-button" type="button">Open flow</button>
+          <button class="profile-button" type="button" id="profileButton"><span class="profile-avatar">N</span><span class="profile-copy"><strong>Nico</strong><small>Personal space</small></span><span class="more">···</span></button>
         </div>
       </aside>
 
-      <main class="main-panel">
+      <main class="main-content" id="overview">
         <header class="topbar">
-          <div>
-            <p class="eyebrow">Tuesday, November 13</p>
-            <h1>Good morning, Nico.</h1>
-          </div>
-
-          <div class="topbar-actions">
-            <button class="chip" type="button">+ Quick add</button>
-            <button class="avatar" type="button" aria-label="Profile">
-              N
-            </button>
-          </div>
+          <div class="breadcrumbs">My space <span>/</span> Overview</div>
+          <div class="topbar-right"><span class="date-pill"><span class="status-dot"></span> Tuesday, November 13</span><button class="icon-button" id="searchButton" aria-label="Search">⌕</button><button class="top-avatar" aria-label="Profile">N</button></div>
         </header>
 
-        <section class="summary-grid" id="summaryGrid"></section>
+        <section class="welcome-row">
+          <div><p class="hello-label">TUESDAY, NOVEMBER 13 <span>✦</span></p><h1>A little progress<br />goes a <em>long way.</em></h1><p class="welcome-subtitle">Here’s your day, all in one place. You’ve got this.</p></div>
+          <div class="welcome-art" aria-hidden="true"><div class="art-sun"></div><div class="art-arc"></div><span class="art-star star-one">✳</span><span class="art-star star-two">✦</span><span class="art-cloud">☁</span><div class="art-hill hill-back"></div><div class="art-hill hill-front"></div><span class="art-caption">make room<br />for what matters</span></div>
+        </section>
 
-        <section class="content-grid">
-          <div class="panel wide-panel">
-            <div class="panel-header">
-              <div>
-                <p class="mini-label">Today</p>
-                <h2>Priority view</h2>
-              </div>
-              <button class="text-button" type="button">See all</button>
-            </div>
+        <section class="stats-row" aria-label="Today's overview">
+          <article class="stat-card stat-peach"><div class="stat-label">TO-DO TODAY <span class="stat-icon">✓</span></div><div class="stat-main"><strong id="taskCount">4</strong><span>things to focus on</span></div><div class="stat-bottom"><div class="mini-progress"><span id="taskProgress"></span></div><span id="progressText">1 of 4 done</span></div></article>
+          <article class="stat-card stat-lilac"><div class="stat-label">CLASSROOM <span class="stat-icon">▤</span></div><div class="stat-main"><strong>2</strong><span>upcoming assignments</span></div><div class="stat-bottom"><span class="stat-note">Next up: Biology lab</span><span class="tiny-arrow">↗</span></div></article>
+          <article class="stat-card stat-mint"><div class="stat-label">ON YOUR CALENDAR <span class="stat-icon">▦</span></div><div class="stat-main"><strong>3</strong><span>plans today</span></div><div class="stat-bottom"><span class="stat-note">Next: Study group · 2:30</span><span class="tiny-arrow">↗</span></div></article>
+        </section>
 
+        <section class="dashboard-grid">
+          <article class="surface tasks-panel" id="tasks">
+            <div class="section-heading"><div><div class="overline">ONE THING AT A TIME</div><h2>Your priorities <span class="heading-count" id="headingCount">4</span></h2></div><button class="plain-link" id="addTaskButton">+ Add a task</button></div>
             <div class="task-list" id="taskList"></div>
-          </div>
+            <button class="view-all" id="showTasksButton">Show completed <span>↓</span></button>
+          </article>
 
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <p class="mini-label">Inbox</p>
-                <h2>Latest mail</h2>
-              </div>
+          <article class="surface week-panel" id="calendar">
+            <div class="section-heading"><div><div class="overline">A QUICK LOOK</div><h2>Your week</h2></div><button class="round-arrow" aria-label="Next week">↗</button></div>
+            <div class="week-chart" role="img" aria-label="A visual overview of your activity this week">
+              <div class="chart-y-labels"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div>
+              <div class="chart-area"><div class="chart-gridlines"><i></i><i></i><i></i><i></i><i></i></div><svg class="chart-svg" viewBox="0 0 420 150" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#9d8bf4" stop-opacity=".28"/><stop offset="100%" stop-color="#9d8bf4" stop-opacity="0"/></linearGradient></defs><path class="chart-area-fill" d="M0 116 C30 100 42 110 70 82 S118 74 140 92 S184 56 210 66 S253 96 280 58 S328 48 350 62 S390 18 420 28 L420 150 L0 150Z"/><path class="chart-line" d="M0 116 C30 100 42 110 70 82 S118 74 140 92 S184 56 210 66 S253 96 280 58 S328 48 350 62 S390 18 420 28"/><circle cx="210" cy="66" r="5" class="chart-point"/></svg><div class="chart-x-labels"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div>
             </div>
+            <div class="week-summary"><span class="legend-dot"></span><span>Your momentum</span><strong>Looking good <span>↗</span></strong></div>
+          </article>
 
-            <div class="mail-list" id="mailList"></div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-header">
-              <div>
-                <p class="mini-label">Calendar</p>
-                <h2>Agenda</h2>
-              </div>
+          <article class="surface classroom-panel" id="classroom">
+            <div class="section-heading"><div><div class="overline">FROM YOUR CLASSES</div><h2>Coming up <span class="classroom-badge">Classroom</span></h2></div><button class="plain-link" id="classroomLink">See all ↗</button></div>
+            <div class="assignment-list">
+              <div class="assignment-item"><div class="subject-icon biology">B</div><div class="assignment-copy"><strong>Cell structure lab report</strong><span>Biology · Ms. Carter</span></div><div class="due-date"><span>Due</span><strong>Tomorrow</strong></div></div>
+              <div class="assignment-item"><div class="subject-icon history">H</div><div class="assignment-copy"><strong>Chapter 6 reading notes</strong><span>World History · Mr. Lee</span></div><div class="due-date"><span>Due</span><strong>Nov 16</strong></div></div>
             </div>
+            <div class="demo-disclaimer">Sample assignments · connect Classroom to sync yours</div>
+          </article>
 
-            <div class="event-list" id="calendarList"></div>
-          </div>
+          <article class="surface agenda-panel">
+            <div class="section-heading"><div><div class="overline">MAKE SPACE FOR IT</div><h2>Today’s plans</h2></div><button class="round-arrow" aria-label="Open calendar">↗</button></div>
+            <div class="agenda-list"><div class="agenda-item"><div class="agenda-time">10:00<span>AM</span></div><div class="agenda-line lavender-line"></div><div class="agenda-copy"><strong>Focus time</strong><span>Biology lab report</span></div><span class="agenda-dot lavender-dot"></span></div><div class="agenda-item"><div class="agenda-time">2:30<span>PM</span></div><div class="agenda-line orange-line"></div><div class="agenda-copy"><strong>Study group</strong><span>Library · Room 204</span></div><span class="agenda-dot orange-dot"></span></div><div class="agenda-item"><div class="agenda-time">5:00<span>PM</span></div><div class="agenda-line green-line"></div><div class="agenda-copy"><strong>Take a breather</strong><span>Walk outside</span></div><span class="agenda-dot green-dot"></span></div></div>
+          </article>
 
-          <div class="panel notes-panel">
-            <div class="panel-header">
-              <div>
-                <p class="mini-label">Notes</p>
-                <h2>Captures</h2>
-              </div>
-            </div>
-
-            <div class="notes-list" id="notesList"></div>
-          </div>
+          <article class="quote-card" id="notes"><div class="quote-mark">“</div><p>You don’t have to see the whole staircase,<br />just take the first step.</p><span>— MARTIN LUTHER KING JR.</span><button id="newQuoteButton" aria-label="Show another thought">↻</button></article>
         </section>
-
-        <section class="integrations">
-          <div class="panel panel-full">
-            <div class="panel-header">
-              <div>
-                <p class="mini-label">Connected apps</p>
-                <h2>Life stack</h2>
-              </div>
-            </div>
-
-            <div class="integration-grid" id="integrationsList"></div>
-          </div>
-        </section>
+        <footer class="footer"><span>Made for your kind of day <span class="footer-heart">♥</span></span><span>DEMO DATA · CONNECT YOUR APPS TO PERSONALIZE</span></footer>
       </main>
     </div>
 
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <dialog class="task-dialog" id="taskDialog"><form method="dialog" id="taskForm"><div class="dialog-top"><div><div class="overline">MAKE A LITTLE PLAN</div><h2>Add a task</h2></div><button class="dialog-close" value="cancel" aria-label="Close">×</button></div><label for="taskInput">What would you like to do?</label><input id="taskInput" name="task" maxlength="90" placeholder="e.g. Review biology notes" required /><div class="dialog-actions"><button class="cancel-button" value="cancel">Cancel</button><button class="submit-button" id="saveTaskButton" value="default">Add task <span>↗</span></button></div></form></dialog>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
